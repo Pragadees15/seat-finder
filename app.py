@@ -91,7 +91,7 @@ class ServerlessConfig:
 # Initialize serverless config
 scaling_config = ServerlessConfig()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 CORS(app)
 
 # Production configuration with dynamic scaling
@@ -351,6 +351,12 @@ def index():
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '0'
     return response
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serve static files (fallback for Vercel)"""
+    from flask import send_from_directory
+    return send_from_directory('static', filename)
 
 @app.route('/api/clear-sessions', methods=['POST'])
 def clear_sessions():
