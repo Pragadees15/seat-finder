@@ -1,14 +1,16 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb",
-        "runtime": "python3.9"
-      }
-    },
+          {
+        "src": "app.py",
+        "use": "@vercel/python",
+        "config": {
+          "maxLambdaSize": "50mb",
+          "runtime": "python3.9",
+          "memory": 1024,
+          "maxDuration": 60
+        }
+      },
     {
       "src": "static/**",
       "use": "@vercel/static"
@@ -26,14 +28,8 @@
       "src": "/(.*)",
       "dest": "/app.py"
     }
-  ],
-  "functions": {
-    "app.py": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  },
-  "env": {
+      ],
+    "env": {
     "FLASK_ENV": "production",
     "FLASK_DEBUG": "0",
     "SERVERLESS": "1",
