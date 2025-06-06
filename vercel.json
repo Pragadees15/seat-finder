@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
+  "functions": {
+    "app.py": {
+      "runtime": "@vercel/python",
+      "maxDuration": 60
     }
-  ],
+  },
   "routes": [
     {
       "src": "/static/(.*)",
@@ -16,11 +16,6 @@
       "dest": "/app.py"
     }
   ],
-  "functions": {
-    "app.py": {
-      "maxDuration": 60
-    }
-  },
   "env": {
     "FLASK_ENV": "production",
     "FLASK_DEBUG": "0",
