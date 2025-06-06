@@ -70,12 +70,12 @@ class ServerlessConfig:
         """Generate optimized configuration for serverless deployment"""
         if self.is_serverless:
             return {
-                "max_workers": 8,  # Aggressive parallel processing for Vercel
-                "max_concurrent_searches": 5,
+                "max_workers": 4,  # Optimized for Vercel 1GB memory limit
+                "max_concurrent_searches": 3,
                 "enable_parallel_search": True,
-                "venue_batch_size": 2,
+                "venue_batch_size": 1,
                 "session_timeout": 300,  # 5 minutes
-                "description": "Vercel Parallel Optimized"
+                "description": "Vercel 1GB Memory Optimized"
             }
         else:
             # Development/local configuration
