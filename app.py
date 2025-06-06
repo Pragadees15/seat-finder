@@ -70,12 +70,12 @@ class ServerlessConfig:
         """Generate optimized configuration for serverless deployment"""
         if self.is_serverless:
             return {
-                "max_workers": 4,  # Conservative for Vercel memory limits
-                "max_concurrent_searches": 3,
+                "max_workers": 8,  # Aggressive parallel processing for Vercel
+                "max_concurrent_searches": 5,
                 "enable_parallel_search": True,
                 "venue_batch_size": 2,
                 "session_timeout": 300,  # 5 minutes
-                "description": "Vercel Memory Optimized"
+                "description": "Vercel Parallel Optimized"
             }
         else:
             # Development/local configuration
@@ -265,8 +265,8 @@ class UltraFastSeatFinderAPI:
             total_tasks = len(search_tasks)
             self.update_realistic_progress(session_id, f"⚡ Starting {total_tasks} parallel searches...", 10)
             
-            # Use ThreadPoolExecutor for parallel processing with memory optimization
-            with ThreadPoolExecutor(max_workers=self.max_workers, thread_name_prefix="srm-search") as executor:
+            # Use ThreadPoolExecutor for parallel processing
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 # Submit all tasks for parallel execution
                 future_to_task = {}
                 for venue, session in search_tasks:
@@ -319,11 +319,6 @@ class UltraFastSeatFinderAPI:
                 'results': formatted_results,
                 'search_time': search_time
             })
-            
-            # Memory cleanup for serverless environment
-            all_matches.clear()
-            del all_matches
-            gc.collect()
             
             print(f"🚀 Parallel search completed: {len(formatted_results)} results in {search_time:.1f}s")
             return formatted_results
