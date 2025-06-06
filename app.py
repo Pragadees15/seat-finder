@@ -70,22 +70,22 @@ class ServerlessConfig:
         """Generate optimized configuration for serverless deployment"""
         if self.is_serverless:
             return {
-                "max_workers": 5,  # Moderate concurrency for serverless
-                "max_concurrent_searches": 3,
+                "max_workers": 8,  # Aggressive parallel processing for Vercel
+                "max_concurrent_searches": 5,
                 "enable_parallel_search": True,
                 "venue_batch_size": 2,
                 "session_timeout": 300,  # 5 minutes
-                "description": "Serverless Optimized"
+                "description": "Vercel Parallel Optimized"
             }
         else:
             # Development/local configuration
             return {
-                "max_workers": 3,
-                "max_concurrent_searches": 2,
+                "max_workers": 6,
+                "max_concurrent_searches": 3,
                 "enable_parallel_search": True,
                 "venue_batch_size": 1,
                 "session_timeout": 300,
-                "description": "Development Mode"
+                "description": "Development Parallel Mode"
             }
 
 # Initialize serverless config
@@ -200,75 +200,116 @@ class UltraFastSeatFinderAPI:
                 'progress': min(100, progress)
             })
 
+    def _search_venue_session_parallel(self, venue, session, roll_number, date, session_id):
+        """Search a single venue-session combination (for parallel processing)"""
+        venue_name = self.venue_names.get(venue, venue)
+        session_name = "Forenoon" if session == "FN" else "Afternoon"
+        
+        try:
+            # Create scraper instance for this venue-session combination
+            from http_scraper import SRMPlaywrightScraper
+            scraper = SRMPlaywrightScraper(headless=True, venue=venue)
+            venue_session_data = scraper.scrape_seating_data_fast(date, session)
+            
+            # Search for student in this venue-session data
+            venue_session_matches = []
+            for entry in venue_session_data:
+                if roll_number.lower() in entry.get('registration_number', '').lower():
+                    entry['venue_code'] = venue
+                    entry['venue_name'] = venue_name
+                    venue_session_matches.append(entry)
+            
+            # Clean up scraper immediately to free memory
+            scraper.close_browser()
+            scraper = None
+            gc.collect()  # Force garbage collection
+            
+            return {
+                'venue': venue,
+                'session': session,
+                'venue_name': venue_name,
+                'session_name': session_name,
+                'matches': venue_session_matches,
+                'success': True
+            }
+            
+        except Exception as venue_error:
+            print(f"⚠️ Error searching {venue_name} - {session_name}: {venue_error}")
+            return {
+                'venue': venue,
+                'session': session,
+                'venue_name': venue_name,
+                'session_name': session_name,
+                'matches': [],
+                'success': False,
+                'error': str(venue_error)
+            }
+
     def find_student_seat_serverless(self, roll_number, date, session_id):
-        """Serverless-optimized search method - searches all venues sequentially"""
+        """ULTRA-FAST parallel search method optimized for Vercel serverless"""
         start_time = time.time()
         
         try:
-            self.update_realistic_progress(session_id, "Searching for exam details...", 5)
+            self.update_realistic_progress(session_id, "🚀 Initializing parallel search...", 5)
             
             all_matches = []
             all_venues = ["main", "tp", "tp2", "bio", "ub"]
             all_sessions = ["FN", "AN"]
             
-            total_combinations = len(all_venues) * len(all_sessions)
-            current_combination = 0
-            
-            self.update_realistic_progress(session_id, "Searching all venues and sessions...", 10)
-            
-            # Search every venue for every session
+            # Create all venue-session combinations for parallel processing
+            search_tasks = []
             for venue in all_venues:
-                venue_name = self.venue_names.get(venue, venue)
-                
                 for session in all_sessions:
-                    current_combination += 1
-                    session_name = "Forenoon" if session == "FN" else "Afternoon"
-                    
-                    # Calculate progress (10% start + 80% for search + 10% for completion)
-                    search_progress = 10 + int((current_combination / total_combinations) * 80)
-                    
-                    self.update_realistic_progress(
-                        session_id, 
-                        f"Checking {venue_name} - {session_name}...", 
-                        search_progress
+                    search_tasks.append((venue, session))
+            
+            total_tasks = len(search_tasks)
+            self.update_realistic_progress(session_id, f"⚡ Starting {total_tasks} parallel searches...", 10)
+            
+            # Use ThreadPoolExecutor for parallel processing
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                # Submit all tasks for parallel execution
+                future_to_task = {}
+                for venue, session in search_tasks:
+                    future = executor.submit(
+                        self._search_venue_session_parallel,
+                        venue, session, roll_number, date, session_id
                     )
+                    future_to_task[future] = (venue, session)
+                
+                # Process completed tasks as they finish
+                completed_tasks = 0
+                for future in as_completed(future_to_task):
+                    completed_tasks += 1
+                    venue, session = future_to_task[future]
                     
                     try:
-                        # Create scraper instance for this venue-session combination
-                        from http_scraper import SRMPlaywrightScraper
-                        scraper = SRMPlaywrightScraper(headless=True, venue=venue)
-                        venue_session_data = scraper.scrape_seating_data_fast(date, session)
+                        result = future.result()
                         
-                        # Search for student in this venue-session data
-                        venue_session_matches = []
-                        for entry in venue_session_data:
-                            if roll_number.lower() in entry.get('registration_number', '').lower():
-                                entry['venue_code'] = venue
-                                entry['venue_name'] = venue_name
-                                venue_session_matches.append(entry)
+                        # Calculate progress (10% start + 80% for searches + 10% for completion)
+                        search_progress = 10 + int((completed_tasks / total_tasks) * 80)
                         
-                        if venue_session_matches:
-                            all_matches.extend(venue_session_matches)
+                        if result['success'] and result['matches']:
+                            all_matches.extend(result['matches'])
                             self.update_realistic_progress(
-                                session_id, 
-                                f"✅ Found {len(venue_session_matches)} result(s) in {venue_name} - {session_name}!", 
-                                search_progress + 2
+                                session_id,
+                                f"✅ Found {len(result['matches'])} result(s) in {result['venue_name']} - {result['session_name']}!",
+                                search_progress
                             )
-                        
-                        # Clean up scraper immediately to free memory
-                        scraper.close_browser()
-                        scraper = None
-                        gc.collect()  # Force garbage collection
-                        
-                    except Exception as venue_error:
-                        # Log error but continue to next combination
-                        print(f"⚠️ Error searching {venue_name} - {session_name}: {venue_error}")
+                        else:
+                            self.update_realistic_progress(
+                                session_id,
+                                f"⚡ Searched {result['venue_name']} - {result['session_name']} ({completed_tasks}/{total_tasks})",
+                                search_progress
+                            )
+                            
+                    except Exception as e:
+                        print(f"⚠️ Task failed for {venue}-{session}: {e}")
                         continue
             
             search_time = time.time() - start_time
             formatted_results = self._format_results(all_matches)
             
-            final_message = f'Found {len(formatted_results)} exam(s) across all venues and sessions'
+            final_message = f'⚡ Found {len(formatted_results)} exam(s) in {search_time:.1f}s using parallel search!'
             
             # Update session with final results
             session_manager.update_session(session_id, {
@@ -279,10 +320,11 @@ class UltraFastSeatFinderAPI:
                 'search_time': search_time
             })
             
+            print(f"🚀 Parallel search completed: {len(formatted_results)} results in {search_time:.1f}s")
             return formatted_results
                 
         except Exception as e:
-            print(f"❌ Serverless search failed: {e}")
+            print(f"❌ Parallel search failed: {e}")
             session_manager.update_session(session_id, {
                 'status': 'error',
                 'message': 'Search failed. Please try again.',
