@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRM Exam Seat Finder</title>
+    <link rel="stylesheet" href="{{ versioned_url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>SRM Seat Finder</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Find Your Exam Seat
+                    <span class="gradient-text">Instantly</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Discover your SRM Institute exam seating arrangement with our modern, 
+                    lightning-fast seat finder. Just enter your details and we'll do the rest.
+                </p>
+                <div class="hero-cta">
+                    <button class="cta-button primary" onclick="scrollToSearch()">
+                        <i class="fas fa-search"></i>
+                        Find My Seat
+                    </button>
+                    <button class="cta-button secondary" onclick="scrollToAbout()">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="search-preview">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <span>RA2211047010135</span>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-calendar"></i>
+                                <span>28/05/2025</span>
+                            </div>
+                            <div class="result-preview">
+                                <div class="result-item">
+                                    <span class="result-label">Room:</span>
+                                    <span class="result-value">H303B</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Seat:</span>
+                                    <span class="result-value">15</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">Session:</span>
+                                    <span class="result-value">Afternoon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Find Your Seat</h2>
+                <p class="section-subtitle">Enter your roll number and select your exam date to instantly find your seating arrangement</p>
+            </div>
+            
+            <div class="search-card">
+                <form id="searchForm" class="search-form">
+                    <div class="form-group">
+                        <label for="rollNumber">Roll Number</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="rollNumber" name="rollNumber" placeholder="Enter your roll number (e.g., RA2211047010135)" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="examDate">Exam Date</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar"></i>
+                            <input type="date" id="examDate" name="examDate" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="search-button">
+                        <span class="button-text">
+                            <i class="fas fa-search"></i>
+                            Search Seat
+                        </span>
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <div id="progressSection" class="progress-section hidden">
+        <div class="container">
+            <div class="progress-card">
+                <div class="progress-header">
+                    <h3>Searching for your seat...</h3>
+                    <p id="progressMessage">Initializing search...</p>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="progressPercent" class="progress-percent">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsSection" class="results-section hidden">
+        <div class="container">
+            <div class="results-header">
+                <h3>🎉 Seat Found!</h3>
+                <p>Here are your exam details:</p>
+            </div>
+            <div id="resultsContainer" class="results-container"></div>
+            <div class="results-actions">
+                <button id="exportButton" class="action-button primary">
+                    <i class="fas fa-download"></i>
+                    Download Results
+                </button>
+                <button id="searchAgainButton" class="action-button secondary">
+                    <i class="fas fa-search"></i>
+                    Search Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Section -->
+    <div id="errorSection" class="error-section hidden">
+        <div class="container">
+            <div class="error-card">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Oops! Something went wrong</h3>
+                <p id="errorMessage">Please try again with different details.</p>
+                <button id="tryAgainButton" class="action-button primary">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Modern. Fast. Reliable.</h2>
+                    <p class="section-subtitle">
+                        Our advanced seat finder uses cutting-edge web scraping technology to instantly 
+                        retrieve your exam seating information from SRM Institute's database.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4>Lightning Fast</h4>
+                            <p>Get your results in seconds with our optimized search engine</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Secure & Private</h4>
+                            <p>Your data is processed securely and never stored on our servers</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4>Mobile Friendly</h4>
+                            <p>Works perfectly on all devices - phone, tablet, or desktop</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4>24/7 Available</h4>
+                            <p>Find your seat anytime, anywhere, whenever you need it</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>SRM Seat Finder</span>
+                </div>
+                <div class="footer-text">
+                    <p>&copy; 2025 SRM Exam Seat Finder. Made with ❤️ for SRM KTR students.</p>
+                    <p class="disclaimer">This tool is for educational purposes only. Please verify your seat assignment with official sources.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="{{ versioned_url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 

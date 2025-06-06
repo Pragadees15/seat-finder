@@ -1,0 +1,27 @@
+# SRM Exam Seat Finder - Vercel Serverless Deployment Requirements
+# Optimized for serverless deployment
+
+# Flask Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# Web Scraping & HTTP
+requests==2.31.0
+beautifulsoup4==4.12.2
+urllib3==2.0.7
+lxml==4.9.3
+
+# PDF Generation
+reportlab==4.0.4
+
+# Date/Time Utilities
+python-dateutil==2.8.2
+
+# Environment Configuration
+python-dotenv==1.0.0 
+
+# Redis for serverless session management
+redis==5.0.1
+
+# JSON handling for sessions
+jsonpickle==3.0.2 

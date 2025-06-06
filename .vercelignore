@@ -1,0 +1,62 @@
+# Vercel Ignore File
+# Files and directories to exclude from deployment
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development files
+deploy-serverless.bat
+README_SERVERLESS.md
+
+# Git
+.git/
+.gitignore
+
+# Documentation (keep only essential)
+README.md
+
+# Logs
+*.log
+logs/
+
+# Dependencies (Vercel installs from requirements.txt)
+venv/
+env/
+.venv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/ 
