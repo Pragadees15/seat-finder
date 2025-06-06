@@ -538,6 +538,8 @@ body {
 .results-section {
     padding: var(--spacing-16) 0;
     background: var(--gray-50);
+    will-change: transform, opacity;
+    contain: layout style paint;
 }
 
 .results-header {
@@ -566,6 +568,8 @@ body {
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--gray-200);
     transition: var(--transition-base);
+    will-change: transform, opacity;
+    transform: translateZ(0); /* Force hardware acceleration */
 }
 
 .result-card:hover {
@@ -646,6 +650,11 @@ body {
     font-size: var(--font-size-xl);
     font-weight: 700;
     color: var(--gray-900);
+}
+
+.field-value.venue {
+    color: var(--info-color, #3498db);
+    font-size: var(--font-size-lg);
 }
 
 .field-value.room {
@@ -876,20 +885,20 @@ body {
 }
 
 .fade-in {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.25s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .slide-up {
-    animation: slideUp 0.5s ease-out;
+    animation: slideUp 0.3s ease-out;
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -975,6 +984,8 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(0, 122, 255, 0.1);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 .export-header {

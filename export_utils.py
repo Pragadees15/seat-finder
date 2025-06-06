@@ -211,6 +211,7 @@ class ExamExportUtils:
             exam_data = [
                 ['📅 Examination Date:', seat_info['date']],
                 ['⏰ Session:', f"{seat_info['session_name']} ({seat_info['session']})"],
+                ['🏫 Venue:', seat_info.get('venue_name', 'Main Campus')],
                 ['🏢 Room Number:', seat_info['room_number']],
                 ['💺 Seat Number:', seat_info['seat_number']]
             ]
@@ -225,11 +226,15 @@ class ExamExportUtils:
                 ('PADDING', (0, 0), (-1, -1), 12),
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                 ('GRID', (0, 0), (-1, -1), 1, self.pdf_colors['border']),
-                # Highlight room and seat numbers
-                ('BACKGROUND', (1, 2), (1, 3), self.pdf_colors['green']),
-                ('TEXTCOLOR', (1, 2), (1, 3), reportlab_colors.white),
-                ('FONTNAME', (1, 2), (1, 3), 'Helvetica-Bold'),
-                ('FONTSIZE', (1, 2), (1, 3), 14),
+                # Highlight venue in blue
+                ('BACKGROUND', (1, 2), (1, 2), self.pdf_colors['blue']),
+                ('TEXTCOLOR', (1, 2), (1, 2), reportlab_colors.white),
+                ('FONTNAME', (1, 2), (1, 2), 'Helvetica-Bold'),
+                # Highlight room and seat numbers in green (adjusted row indices)
+                ('BACKGROUND', (1, 3), (1, 4), self.pdf_colors['green']),
+                ('TEXTCOLOR', (1, 3), (1, 4), reportlab_colors.white),
+                ('FONTNAME', (1, 3), (1, 4), 'Helvetica-Bold'),
+                ('FONTSIZE', (1, 3), (1, 4), 14),
             ]))
             
             story.append(exam_table)
@@ -591,7 +596,7 @@ class ExamExportUtils:
             story.append(Paragraph("📋 EXAMINATION SCHEDULE", section_header))
             
             # Table headers
-            table_data = [['Date', 'Session', 'Room', 'Seat', 'Time']]
+            table_data = [['Date', 'Session', 'Venue', 'Room', 'Seat', 'Time']]
             
             # Table rows
             for exam in exam_list:
@@ -599,42 +604,48 @@ class ExamExportUtils:
                 table_data.append([
                     exam['date'],
                     f"{exam['session_name']} ({exam['session']})",
+                    exam.get('venue_name', 'Main Campus'),
                     exam['room_number'],
                     exam['seat_number'],
                     session_time
                 ])
             
             # Create table
-            schedule_table = Table(table_data, colWidths=[80, 100, 60, 60, 100])
+            schedule_table = Table(table_data, colWidths=[65, 80, 85, 50, 50, 90])
             schedule_table.setStyle(TableStyle([
                 # Header styling
                 ('BACKGROUND', (0, 0), (-1, 0), self.pdf_colors['navy']),
                 ('TEXTCOLOR', (0, 0), (-1, 0), reportlab_colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, 0), 11),
+                ('FONTSIZE', (0, 0), (-1, 0), 10),
                 ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
                 
                 # Data styling
                 ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-                ('FONTSIZE', (0, 1), (-1, -1), 10),
+                ('FONTSIZE', (0, 1), (-1, -1), 9),
                 ('TEXTCOLOR', (0, 1), (-1, -1), self.pdf_colors['dark_gray']),
                 ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
                 
                 # Grid and padding
                 ('GRID', (0, 0), (-1, -1), 1, self.pdf_colors['border']),
-                ('PADDING', (0, 0), (-1, -1), 8),
+                ('PADDING', (0, 0), (-1, -1), 6),
                 ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                 
-                # Highlight room and seat columns
-                ('BACKGROUND', (2, 1), (2, -1), self.pdf_colors['green']),
-                ('BACKGROUND', (3, 1), (3, -1), self.pdf_colors['blue']),
-                ('TEXTCOLOR', (2, 1), (3, -1), reportlab_colors.white),
-                ('FONTNAME', (2, 1), (3, -1), 'Helvetica-Bold'),
+                # Highlight venue column in blue
+                ('BACKGROUND', (2, 1), (2, -1), self.pdf_colors['blue']),
+                ('TEXTCOLOR', (2, 1), (2, -1), reportlab_colors.white),
+                ('FONTNAME', (2, 1), (2, -1), 'Helvetica-Bold'),
                 
-                # Alternating row colors
+                # Highlight room and seat columns in green
+                ('BACKGROUND', (3, 1), (3, -1), self.pdf_colors['green']),
+                ('BACKGROUND', (4, 1), (4, -1), self.pdf_colors['green']),
+                ('TEXTCOLOR', (3, 1), (4, -1), reportlab_colors.white),
+                ('FONTNAME', (3, 1), (4, -1), 'Helvetica-Bold'),
+                
+                # Alternating row colors for date, session and time columns
                 *[('BACKGROUND', (0, i), (1, i), self.pdf_colors['light_gray']) 
                   for i in range(2, len(table_data), 2)],
-                *[('BACKGROUND', (4, i), (4, i), self.pdf_colors['light_gray']) 
+                *[('BACKGROUND', (5, i), (5, i), self.pdf_colors['light_gray']) 
                   for i in range(2, len(table_data), 2)],
             ]))
             
@@ -690,7 +701,8 @@ Registration: {seat_info['registration_number']}
 🏢 Department: {seat_info['department']}
 
 🎯 *SEAT INFORMATION:*
-🏫 Room Number: *{seat_info['room_number']}*
+🏫 Venue: *{seat_info.get('venue_name', 'Main Campus')}*
+🏢 Room Number: *{seat_info['room_number']}*
 💺 Seat Number: *{seat_info['seat_number']}*
 
 ⏰ Don't forget your exam! Good luck! 🍀

@@ -469,8 +469,6 @@ class SeatFinderApp {
     }
 
     showResults(results) {
-        this.hideAllSections();
-        
         if (!results || results.length === 0) {
             this.showError('No exam seat found for the provided details. Please check your roll number and exam date.');
             return;
@@ -479,43 +477,69 @@ class SeatFinderApp {
         const resultsSection = document.getElementById('resultsSection');
         const resultsContainer = document.getElementById('resultsContainer');
 
-        if (resultsSection && resultsContainer) {
-            // Clear previous results
-            resultsContainer.innerHTML = '';
+        if (!resultsSection || !resultsContainer) return;
 
-            // Create result cards
+        // Use requestAnimationFrame for smoother transitions
+        requestAnimationFrame(() => {
+            this.hideAllSections();
+            
+            // Clear previous results efficiently
+            resultsContainer.innerHTML = '';
+            
+            // Create document fragment for better performance
+            const fragment = document.createDocumentFragment();
+            
+            // Create result cards without staggered animation delays initially
             results.forEach((result, index) => {
                 const resultCard = this.createResultCard(result, index);
-                resultsContainer.appendChild(resultCard);
+                // Remove animation delay for faster initial render
+                resultCard.style.animationDelay = '0ms';
+                fragment.appendChild(resultCard);
             });
-
-            // Add enhanced export section
-            this.addEnhancedExportSection(resultsContainer);
-
-            // Show results section
+            
+            // Add all cards at once
+            resultsContainer.appendChild(fragment);
+            
+            // Show results section immediately
             resultsSection.classList.remove('hidden');
             resultsSection.classList.add('slide-up');
-
-            // Smooth scroll to results
-            setTimeout(() => {
-                resultsSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
+            
+            // Apply staggered animations after initial render
+            requestAnimationFrame(() => {
+                const cards = resultsContainer.querySelectorAll('.result-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.05}s`; // Reduced delay
+                    card.classList.add('fade-in');
                 });
-            }, 100);
-
+                
+                // Add export section after cards are rendered
+                setTimeout(() => {
+                    this.addEnhancedExportSection(resultsContainer);
+                    this.loadExportOptionsWithExtension();
+                }, 150);
+                
+                // Scroll to results with reduced delay
+                setTimeout(() => {
+                    resultsSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 200);
+            });
+            
             // Show success message
             const sessionText = results.length === 1 ? 'exam seat' : 'exam seats';
             this.showToast(`🎉 Found ${results.length} ${sessionText}!`, 'success');
-            
-            // Load export options with session extension
-            this.loadExportOptionsWithExtension();
-        }
+        });
     }
 
     addEnhancedExportSection(container) {
         const exportSection = document.createElement('div');
         exportSection.className = 'enhanced-export-section';
+        exportSection.style.opacity = '0';
+        exportSection.style.transform = 'translateY(10px)';
+        exportSection.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        
         exportSection.innerHTML = `
             <div class="export-header">
                 <h3>📤 Export & Share Options</h3>
@@ -536,6 +560,12 @@ class SeatFinderApp {
         `;
 
         container.appendChild(exportSection);
+        
+        // Fade in the export section
+        requestAnimationFrame(() => {
+            exportSection.style.opacity = '1';
+            exportSection.style.transform = 'translateY(0)';
+        });
     }
     
     async loadExportOptionsWithExtension() {
@@ -813,6 +843,10 @@ class SeatFinderApp {
                 <div class="result-field">
                     <div class="field-label">Seat Number</div>
                     <div class="field-value seat">${result.seat_number}</div>
+                </div>
+                <div class="result-field">
+                    <div class="field-label">Venue</div>
+                    <div class="field-value venue">${result.venue_name || 'Main Campus'}</div>
                 </div>
                 <div class="result-field">
                     <div class="field-label">Department</div>
