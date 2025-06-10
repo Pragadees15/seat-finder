@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /static/
+Allow: /api/health
+
+Disallow: /api/search
+Disallow: /api/progress/
+Disallow: /api/export/
+Disallow: /api/clear-sessions
+
+Sitemap: https://exam-seat-finder.vercel.app/static/sitemap.xml
+
+# SRM Seat Finder v2.0
+# Modern exam seat discovery for SRM Institute students 

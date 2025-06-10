@@ -1,19 +1,23 @@
-# Vercel Ignore File
-# Files and directories to exclude from deployment
+# SRM Exam Seat Finder - Vercel Ignore Configuration
+# v2.0 Production Optimizations
 
-# Python cache
-__pycache__/
+# Development files
 *.pyc
+__pycache__/
 *.pyo
 *.pyd
 .Python
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Environment and secrets
+.env*
+.venv/
+venv/
+ENV/
+env/
 
 # IDE files
 .vscode/
@@ -22,41 +26,45 @@ __pycache__/
 *.swo
 *~
 
-# OS files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Documentation and development
+README_dev.md
+docs/
+*.md.backup
 
-# Development files
-deploy-serverless.bat
-README_SERVERLESS.md
-
-# Git
+# Git files
 .git/
 .gitignore
+.gitattributes
 
-# Documentation (keep only essential)
-README.md
-
-# Logs
+# OS files
+.DS_Store
+Thumbs.db
 *.log
-logs/
 
-# Dependencies (Vercel installs from requirements.txt)
-venv/
-env/
-.venv/
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Build artifacts
-build/
+# Build files
 dist/
-*.egg-info/ 
+build/
+*.egg-info/
+
+# Testing files
+tests/
+test_*.py
+*_test.py
+
+# Development scripts
+scripts/
+dev_tools/
+
+# Large files (if any)
+*.zip
+*.tar.gz
+*.mp4
+*.mov
+
+# Cache directories
+.cache/
+node_modules/
+
+# Backup files
+*.backup
+*.bak 

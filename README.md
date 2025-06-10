@@ -1,43 +1,51 @@
 <div align="center">
 
-# 🎯 SRM Exam Seat Finder
+# 🎯 SRM Exam Seat Finder v2.0
 
 <img src="https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge&logo=heart" alt="Made with Love"/>
 <img src="https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
 <img src="https://img.shields.io/badge/Flask-2.3+-green?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
 <img src="https://img.shields.io/badge/Vercel-Ready-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Ready"/>
 <img src="https://img.shields.io/badge/Serverless-⚡-yellow?style=for-the-badge&logo=lightning&logoColor=white" alt="Serverless"/>
+<img src="https://img.shields.io/badge/Theme-Monochrome-000000?style=for-the-badge&logo=palette&logoColor=white" alt="Black & White Theme"/>
 
 **⚡ Lightning-fast serverless exam seat finder for SRM Institute students**
 
-*Find your exam seat in under 15 seconds across all SRM campuses with comprehensive search and reliable PDF exports!*
+*Find your exam seat in under 15 seconds across all SRM campuses with a sleek black & white design!*
+
+**🆕 v2.0 Features: Pure Monochrome Theme | Enhanced Mobile UX | Social Media Ready**
 
 [📖 Features](#-features) • [🚀 Quick Start](#-quick-start) • [⚡ Deploy to Vercel](#-deploy-to-vercel) • [🐛 Report Bug](../../issues)
+
+**Live Demo**: [https://exam-seat-finder.vercel.app/](https://exam-seat-finder.vercel.app/)
 
 </div>
 
 ---
 
-## 🌟 Why SRM Seat Finder?
+## 🌟 What's New in v2.0?
 
 <table>
 <tr>
 <td width="50%">
 
-### 🚀 **Serverless Performance**
-- **⚡ Auto-scaling** with global CDN
-- **🌍 Global edge** deployment
-- **💰 Zero server costs** when idle
-- **🔄 Zero maintenance** required
+### 🎨 **Pure Monochrome Design**
+- **🖤 Black & White** theme for professional look
+- **🌙 Perfect Dark Mode** with seamless switching
+- **📱 Enhanced Mobile** experience with optimized navigation
+- **🔔 Smart Notifications** that don't block UI elements
+- **✨ Modern Animations** with smooth transitions
 
 </td>
 <td width="50%">
 
-### 🎯 **Student-Centric**
-- **Sub-15 second** search results
-- **📱 Mobile-responsive** design
-- **📄 Reliable PDF exports**
-- **💬 WhatsApp sharing**
+### 🚀 **Production Optimizations**
+- **⚡ Faster Load Times** with optimized assets
+- **🔧 Enhanced Vercel** deployment configuration
+- **💾 Improved Caching** for static resources
+- **🔗 Social Media Ready** with Open Graph meta tags
+- **📱 WhatsApp Preview** support for link sharing
+- **🐛 Bug Fixes** and performance improvements
 
 </td>
 </tr>
@@ -55,11 +63,14 @@
 
 </div>
 
-### 🎨 **Modern Interface**
-- 🌙 **Professional design** with smooth animations
-- 📱 **Responsive layout** for all devices
-- 🎯 **Intuitive user experience**
-- ⚡ **Real-time progress** indicators with detailed messages
+### 🎨 **v2.0 Design System**
+- 🖤 **Pure Monochrome** interface for professional aesthetics
+- 🌙 **Dark/Light Mode** with instant theme switching
+- 📱 **Responsive Design** optimized for all screen sizes
+- 🔔 **Smart Notifications** positioned to avoid UI blocking
+- ✨ **Smooth Animations** and modern UI components
+- 🎯 **Enhanced UX** with intuitive navigation and feedback
+- 📲 **Mobile-First Navigation** with collapsible menu
 
 ### 🔧 **Serverless Architecture**
 - ⚡ **HTTP-based scraping** for ultra-fast performance
@@ -73,7 +84,7 @@
 
 ### 📋 **For Students**
 
-1. **Visit**: The deployed Vercel application URL
+1. **Visit**: [https://exam-seat-finder.vercel.app/](https://exam-seat-finder.vercel.app/)
 2. **Enter**: Your registration number (e.g., `RA2211047010135`)
 3. **Select**: Exam date and click search
 4. **Wait**: 5-15 seconds for comprehensive search across all campuses
@@ -86,8 +97,8 @@
 
 ```bash
 # 1️⃣ Clone the repository
-git clone https://github.com/yourusername/srm-exam-seat-finder.git
-cd srm-exam-seat-finder
+git clone https://github.com/Pragadees15/seat-finder.git
+cd seat-finder
 
 # 2️⃣ Create virtual environment
 python -m venv venv
@@ -115,14 +126,14 @@ python app.py
 
 <div align="center">
 
-### **🚀 One-Click Serverless Deployment!**
+### **🚀 Updated v2.0 Deployment Guide**
 
 </div>
 
-### **Deployment Steps** 🔧
+### **Quick Deployment** 🔧
 
 <details>
-<summary><b>Step-by-step Manual Deployment</b></summary>
+<summary><b>Option 1: Vercel CLI (Recommended)</b></summary>
 
 #### **Step 1: Install Vercel CLI**
 ```bash
@@ -131,43 +142,69 @@ npm install -g vercel
 
 #### **Step 2: Deploy**
 ```bash
+# Navigate to project directory
+cd seat-finder
+
 # Deploy to production
 vercel --prod
 
 # Follow the prompts:
-# ? Set up and deploy "~/srm-exam-seat-finder"? [Y/n] y
-# ? Which scope do you want to deploy to? [your-username]
-# ? Link to existing project? [y/N] n
-# ? What's your project's name? srm-exam-seat-finder
-# ? In which directory is your code located? ./
-```
-
-#### **Step 3: Configure Environment (Optional)**
-For enhanced session persistence, add in Vercel dashboard:
-```
-SECRET_KEY = your-secret-key-here
-REDIS_URL = redis://your-redis-instance-url
-```
-
-#### **Step 4: Custom Domain (Optional)**
-```bash
-vercel --prod --domains your-custom-domain.com
+# ? Set up and deploy? [Y/n] y
+# ? Which scope? [your-username]
+# ? Link to existing project? [y/N] y (if updating existing)
+# ? What's your project's name? seat-finder
 ```
 
 </details>
 
+<details>
+<summary><b>Option 2: Git Integration</b></summary>
+
+1. **Push to GitHub**: Commit your changes and push to your repository
+2. **Connect Vercel**: Link your GitHub repo in Vercel dashboard
+3. **Auto-Deploy**: Every push to main branch triggers automatic deployment
+
+```bash
+git add .
+git commit -m "feat: v2.0 - Enhanced mobile UX with social media integration
+
+- Pure black & white monochrome design
+- Mobile-optimized notifications and navigation  
+- WhatsApp link preview support with Open Graph tags
+- Enhanced theme switching with improved positioning
+- Faster toast notifications (2s duration)
+- Professional social media sharing experience"
+git push origin main
+```
+
+</details>
+
+### **Production Configuration** ⚙️
+
+Your `vercel.json` is pre-configured with:
+- ✅ **Optimized memory allocation** (1GB)
+- ✅ **Enhanced caching** for static assets
+- ✅ **Proper routing** for all endpoints
+- ✅ **Environment variables** for production
+
+**Optional Environment Variables:**
+```bash
+SECRET_KEY=your-secret-key-here
+REDIS_URL=redis://your-redis-instance-url  # For enhanced session persistence
+```
+
 ### **🎉 Deployment Complete!**
 
-Your serverless app will be live at: `https://your-app-name.vercel.app`
+Your v2.0 app will be live at: `https://your-app-name.vercel.app`
 
-**✨ Serverless Benefits:**
-- 🚀 **Auto-scaling** - Handles traffic spikes automatically
-- 🌍 **Global CDN** - Lightning-fast worldwide performance  
-- 💰 **Cost-efficient** - Pay only for actual usage
-- 🔄 **Zero maintenance** - No server management needed
-- ⚡ **Instant deploys** - Updates in seconds
+**✨ v2.0 Benefits:**
+- 🎨 **Professional Design** - Clean black & white interface
+- 🚀 **Enhanced Performance** - Optimized for speed
+- 📱 **Mobile Perfect** - Responsive across all devices
+- 🌙 **Theme Switching** - Light/dark mode support
+- ⚡ **Instant Updates** - Zero-downtime deployments
 
-**Expected deployment time**: 30-60 seconds ⚡
+**Expected deployment time**: 45-90 seconds ⚡
 
 ---
 

@@ -358,6 +358,16 @@ def serve_static(filename):
     from flask import send_from_directory
     return send_from_directory('static', filename)
 
+@app.route('/robots.txt')
+def robots_txt():
+    """Serve robots.txt for SEO"""
+    return send_file('static/robots.txt', mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    """Serve sitemap.xml for SEO"""
+    return send_file('static/sitemap.xml', mimetype='application/xml')
+
 @app.route('/api/clear-sessions', methods=['POST'])
 def clear_sessions():
     """Clear all sessions when user clicks Search Again button"""

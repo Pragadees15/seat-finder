@@ -3,84 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRM Exam Seat Finder</title>
+    <title>SRM Seat Finder - Modern Exam Seat Discovery</title>
+    
+    <!-- SEO and Social Media Meta Tags -->
+    <meta name="description" content="Find your SRM Institute exam seat instantly with our lightning-fast seat finder. Modern design, comprehensive search across all campuses, and reliable PDF exports.">
+    <meta name="keywords" content="SRM exam seat finder, SRM Institute, exam seating, seat finder, SRM University, examination hall, student portal">
+    <meta name="author" content="SRM Seat Finder">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="SRM Seat Finder - Find Your Exam Seat Instantly">
+    <meta property="og:description" content="🎯 Lightning-fast exam seat finder for SRM Institute students. Modern black & white design with comprehensive search across all campuses. Find your seat in under 15 seconds!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://exam-seat-finder.vercel.app/">
+    <meta property="og:site_name" content="SRM Seat Finder">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SRM Seat Finder - Find Your Exam Seat Instantly">
+    <meta name="twitter:description" content="🎯 Lightning-fast exam seat finder for SRM Institute students with modern design and comprehensive search.">
+    
+    <!-- WhatsApp Specific Meta Tags -->
+    <meta property="og:image" content="https://exam-seat-finder.vercel.app/static/images/preview.svg">
+    <meta property="og:image:alt" content="SRM Seat Finder - Modern exam seat discovery for SRM Institute students">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta name="twitter:image" content="https://exam-seat-finder.vercel.app/static/images/preview.svg">
+    
+    <!-- Additional Social Media Tags for Better Compatibility -->
+    <meta property="og:image:secure_url" content="https://exam-seat-finder.vercel.app/static/images/preview.svg">
+    <meta name="twitter:image:alt" content="SRM Seat Finder - Modern exam seat discovery for SRM Institute students">
+    <meta name="twitter:site" content="@srmseatfinder">
+    <meta name="twitter:creator" content="@srmseatfinder">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="application-name" content="SRM Seat Finder">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ versioned_url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ versioned_url_for('static', filename='favicon.ico') }}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ versioned_url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            foreground: "hsl(var(--primary-foreground))",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(var(--secondary))",
+                            foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(var(--destructive))",
+                            foreground: "hsl(var(--destructive-foreground))",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(var(--muted))",
+                            foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(var(--accent))",
+                            foreground: "hsl(var(--accent-foreground))",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(var(--popover))",
+                            foreground: "hsl(var(--popover-foreground))",
+                        },
+                        card: {
+                            DEFAULT: "hsl(var(--card))",
+                            foreground: "hsl(var(--card-foreground))",
+                        },
+                    },
+                    borderRadius: {
+                        lg: "var(--radius)",
+                        md: "calc(var(--radius) - 2px)",
+                        sm: "calc(var(--radius) - 4px)",
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' },
+                            '100%': { boxShadow: '0 0 30px rgba(0, 0, 0, 0.8)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
 </head>
-<body>
+<body class="min-h-screen font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -inset-10 opacity-30 dark:opacity-50">
+            <div class="absolute top-0 -left-4 w-72 h-72 bg-gray-200 dark:bg-gray-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+            <div class="absolute top-0 -right-4 w-72 h-72 bg-gray-300 dark:bg-gray-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-gray-400 dark:bg-gray-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+        </div>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>SRM Seat Finder</span>
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 text-white dark:text-black"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900 dark:text-white">
+                        SRM Seat Finder
+                    </span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Home</a>
+                    <a href="#search" class="nav-link text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">Search</a>
+                    <a href="#about" class="nav-link text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors">About</a>
+                    <button class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <div class="flex md:hidden items-center space-x-4">
+                    <!-- Theme Toggle for Mobile -->
+                    <button class="theme-toggle p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuButton" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i data-lucide="menu" class="w-4 h-4 block mobile-menu-open"></i>
+                        <i data-lucide="x" class="w-4 h-4 hidden mobile-menu-close"></i>
+                    </button>
+                </div>
             </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link active">Home</a>
-                <a href="#about" class="nav-link">About</a>
+            
+            <!-- Mobile Menu Panel -->
+            <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl">
+                <div class="px-4 py-4 space-y-3">
+                    <a href="#home" class="mobile-nav-link block py-3 px-4 rounded-lg text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="home" class="w-4 h-4 inline mr-3"></i>
+                        Home
+                    </a>
+                    <a href="#search" class="mobile-nav-link block py-3 px-4 rounded-lg text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="search" class="w-4 h-4 inline mr-3"></i>
+                        Search
+                    </a>
+                    <a href="#about" class="mobile-nav-link block py-3 px-4 rounded-lg text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i data-lucide="info" class="w-4 h-4 inline mr-3"></i>
+                        About
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    Find Your Exam Seat
-                    <span class="gradient-text">Instantly</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Discover your SRM Institute exam seating arrangement with our modern, 
-                    lightning-fast seat finder. Just enter your details and we'll do the rest.
-                </p>
-                <div class="hero-cta">
-                    <button class="cta-button primary" onclick="scrollToSearch()">
-                        <i class="fas fa-search"></i>
-                        Find My Seat
-                    </button>
-                    <button class="cta-button secondary" onclick="scrollToAbout()">
-                        <i class="fas fa-info-circle"></i>
-                        Learn More
-                    </button>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="floating-card">
-                    <div class="card-header">
-                        <div class="card-dots">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
+    <section id="home" class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="space-y-8 animate-slide-up">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-600">
+                            <i data-lucide="zap" class="w-4 h-4 mr-2"></i>
+                            Lightning Fast Search
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
+                            Find Your
+                            <span class="text-black dark:text-white">
+                                Exam Seat
+                            </span>
+                            <br>Instantly
+                        </h1>
+                        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
+                            Discover your SRM Institute exam seating arrangement with our modern, 
+                            AI-powered seat finder. Just enter your details and we'll handle the rest.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="scrollToSearch()" class="btn-primary">
+                            <i data-lucide="search" class="w-5 h-5 mr-2"></i>
+                            Find My Seat
+                        </button>
+                        <button onclick="scrollToAbout()" class="btn-secondary">
+                            <i data-lucide="info" class="w-5 h-5 mr-2"></i>
+                            Learn More
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 pt-8">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-black dark:text-white">10K+</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">Students Helped</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-black dark:text-white">< 5s</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">Average Search Time</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-black dark:text-white">99.9%</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">Accuracy Rate</div>
                         </div>
                     </div>
-                    <div class="card-content">
-                        <div class="search-preview">
-                            <div class="input-group">
-                                <i class="fas fa-user"></i>
-                                <span>RA2211047010135</span>
+                </div>
+
+                <!-- Hero Visual -->
+                <div class="relative animate-float hidden lg:block">
+                    <div class="card-glass p-6 max-w-md mx-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-lg text-gray-900 dark:text-white">Exam Details</h3>
+                            <div class="flex space-x-1">
+                                <div class="w-3 h-3 bg-gray-400 dark:bg-gray-600 rounded-full"></div>
+                                <div class="w-3 h-3 bg-gray-500 dark:bg-gray-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-gray-600 dark:bg-gray-400 rounded-full"></div>
                             </div>
-                            <div class="input-group">
-                                <i class="fas fa-calendar"></i>
-                                <span>28/05/2025</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="input-field">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                                <span class="font-mono text-gray-700 dark:text-gray-300">RA2211047010135</span>
                             </div>
-                            <div class="result-preview">
-                                <div class="result-item">
-                                    <span class="result-label">Venue:</span>
-                                    <span class="result-value">Main Campus</span>
+                            <div class="input-field">
+                                <i data-lucide="calendar" class="w-4 h-4"></i>
+                                <span class="text-gray-700 dark:text-gray-300">28/05/2025</span>
+                            </div>
+                            
+                            <div class="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4 space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 dark:text-gray-400">Venue:</span>
+                                    <span class="text-black dark:text-white font-medium">Main Campus</span>
                                 </div>
-                                <div class="result-item">
-                                    <span class="result-label">Room:</span>
-                                    <span class="result-value">H303B</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 dark:text-gray-400">Room:</span>
+                                    <span class="text-black dark:text-white font-medium">H303B</span>
                                 </div>
-                                <div class="result-item">
-                                    <span class="result-label">Seat:</span>
-                                    <span class="result-value">15</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 dark:text-gray-400">Seat:</span>
+                                    <span class="text-black dark:text-white font-bold">15</span>
                                 </div>
-                                <div class="result-item">
-                                    <span class="result-label">Session:</span>
-                                    <span class="result-value">Afternoon</span>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 dark:text-gray-400">Session:</span>
+                                    <span class="text-black dark:text-white font-medium">Afternoon</span>
                                 </div>
                             </div>
                         </div>
@@ -91,37 +311,54 @@
     </section>
 
     <!-- Search Section -->
-    <section class="search-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Find Your Seat</h2>
-                <p class="section-subtitle">Enter your roll number and select your exam date to instantly find your seating arrangement</p>
+    <section id="search" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800/50">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-12 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+                    Find Your <span class="text-black dark:text-white">Seat</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">
+                    Enter your roll number and select your exam date to instantly find your seating arrangement
+                </p>
             </div>
             
-            <div class="search-card">
-                <form id="searchForm" class="search-form">
+            <div class="card-glass p-8 animate-slide-up">
+                <form id="searchForm" class="space-y-6">
                     <div class="form-group">
-                        <label for="rollNumber">Roll Number</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="rollNumber" name="rollNumber" placeholder="Enter your roll number (e.g., RA2211047010135)" required>
-                        </div>
+                        <label for="rollNumber" class="form-label">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                            Roll Number
+                        </label>
+                        <input 
+                            type="text" 
+                            id="rollNumber" 
+                            name="rollNumber" 
+                            placeholder="RA2211047010135" 
+                            class="form-input"
+                            required
+                        >
                     </div>
                     
                     <div class="form-group">
-                        <label for="examDate">Exam Date</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-calendar"></i>
-                            <input type="date" id="examDate" name="examDate" required>
-                        </div>
+                        <label for="examDate" class="form-label">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            Exam Date
+                        </label>
+                        <input 
+                            type="date" 
+                            id="examDate" 
+                            name="examDate" 
+                            class="form-input"
+                            required
+                        >
                     </div>
                     
-                    <button type="submit" class="search-button">
-                        <span class="button-text">
-                            <i class="fas fa-search"></i>
+                    <button type="submit" class="search-button w-full">
+                        <span class="button-content">
+                            <i data-lucide="search" class="w-5 h-5"></i>
                             Search Seat
                         </span>
-                        <div class="loading-spinner">
+                        <div class="loading-spinner hidden">
                             <div class="spinner"></div>
                         </div>
                     </button>
@@ -131,36 +368,45 @@
     </section>
 
     <!-- Progress Section -->
-    <div id="progressSection" class="progress-section hidden">
-        <div class="container">
-            <div class="progress-card">
-                <div class="progress-header">
-                    <h3>Searching for your seat...</h3>
-                    <p id="progressMessage">Initializing search...</p>
+    <div id="progressSection" class="hidden py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="card-glass p-8 text-center">
+                <div class="mb-6">
+                                    <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                    <i data-lucide="search" class="w-8 h-8 text-black dark:text-white animate-spin-slow"></i>
                 </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Searching for your seat...</h3>
+                    <p id="progressMessage" class="text-gray-600 dark:text-gray-300">Initializing search...</p>
+                </div>
+                
                 <div class="progress-bar">
                     <div id="progressFill" class="progress-fill"></div>
                 </div>
-                <div id="progressPercent" class="progress-percent">0%</div>
+                <div id="progressPercent" class="text-sm text-gray-500 dark:text-gray-400 mt-2">0%</div>
             </div>
         </div>
     </div>
 
     <!-- Results Section -->
-    <div id="resultsSection" class="results-section hidden">
-        <div class="container">
-            <div class="results-header">
-                <h3>🎉 Seat Found!</h3>
-                <p>Here are your exam details:</p>
+    <div id="resultsSection" class="hidden py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                    <i data-lucide="check-circle" class="w-8 h-8 text-black dark:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">🎉 Seat Found!</h3>
+                <p class="text-gray-600 dark:text-gray-300">Here are your exam details:</p>
             </div>
-            <div id="resultsContainer" class="results-container"></div>
-            <div class="results-actions">
-                <button id="exportButton" class="action-button primary">
-                    <i class="fas fa-download"></i>
+            
+            <div id="resultsContainer" class="space-y-6 mb-8"></div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="exportButton" class="btn-primary">
+                    <i data-lucide="download" class="w-5 h-5 mr-2"></i>
                     Download Results
                 </button>
-                <button id="searchAgainButton" class="action-button secondary">
-                    <i class="fas fa-search"></i>
+                <button id="searchAgainButton" class="btn-secondary">
+                    <i data-lucide="search" class="w-5 h-5 mr-2"></i>
                     Search Again
                 </button>
             </div>
@@ -168,16 +414,16 @@
     </div>
 
     <!-- Error Section -->
-    <div id="errorSection" class="error-section hidden">
-        <div class="container">
-            <div class="error-card">
-                <div class="error-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
+    <div id="errorSection" class="hidden py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="card-glass p-8 text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                    <i data-lucide="alert-triangle" class="w-8 h-8 text-black dark:text-white"></i>
                 </div>
-                <h3>Oops! Something went wrong</h3>
-                <p id="errorMessage">Please try again with different details.</p>
-                <button id="tryAgainButton" class="action-button primary">
-                    <i class="fas fa-redo"></i>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Oops! Something went wrong</h3>
+                <p id="errorMessage" class="text-gray-600 dark:text-gray-300 mb-6">Please try again with different details.</p>
+                <button id="tryAgainButton" class="btn-primary">
+                    <i data-lucide="refresh-cw" class="w-5 h-5 mr-2"></i>
                     Try Again
                 </button>
             </div>
@@ -185,74 +431,129 @@
     </div>
 
     <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2 class="section-title">Modern. Fast. Reliable.</h2>
-                    <p class="section-subtitle">
-                        Our advanced seat finder uses cutting-edge web scraping technology to instantly 
-                        retrieve your exam seating information from SRM Institute's database.
-                    </p>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <h4>Lightning Fast</h4>
-                            <p>Get your results in seconds with our optimized search engine</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h4>Secure & Private</h4>
-                            <p>Your data is processed securely and never stored on our servers</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <h4>Mobile Friendly</h4>
-                            <p>Works perfectly on all devices - phone, tablet, or desktop</p>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <h4>24/7 Available</h4>
-                            <p>Find your seat anytime, anywhere, whenever you need it</p>
-                        </div>
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+                    Modern. <span class="text-black dark:text-white">Fast.</span> <span class="text-black dark:text-white">Reliable.</span>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 text-lg max-w-3xl mx-auto">
+                    Our advanced seat finder uses cutting-edge web scraping technology and modern design 
+                    principles to instantly retrieve your exam seating information from SRM Institute's database.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
                     </div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Lightning Fast</h4>
+                    <p class="text-gray-600 dark:text-gray-400">Get your results in seconds with our optimized search engine</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Secure & Private</h4>
+                    <p class="text-gray-600 dark:text-gray-400">Your data is processed securely and never stored on our servers</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Mobile Friendly</h4>
+                    <p class="text-gray-600 dark:text-gray-400">Works perfectly on all devices - phone, tablet, or desktop</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+                        <i data-lucide="clock" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">24/7 Available</h4>
+                    <p class="text-gray-600 dark:text-gray-400">Find your seat anytime, anywhere, whenever you need it</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>SRM Seat Finder</span>
+    <footer class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-white dark:text-black"></i>
+                        </div>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">SRM Seat Finder</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Modern exam seat discovery platform for SRM Institute students.
+                    </p>
                 </div>
-                <div class="footer-text">
-                    <p>&copy; 2025 SRM Exam Seat Finder. Made with ❤️ for SRM KTR students.</p>
-                    <p class="disclaimer">This tool is for educational purposes only. Please verify your seat assignment with official sources.</p>
+                
+                <div class="space-y-4">
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Quick Links</h4>
+                    <div class="space-y-2">
+                        <a href="#home" class="footer-link text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Home</a>
+                        <a href="#search" class="footer-link text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Search</a>
+                        <a href="#about" class="footer-link text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">About</a>
+                    </div>
                 </div>
+                
+                <div class="space-y-4">
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Features</h4>
+                    <div class="space-y-2">
+                        <div class="footer-link text-gray-600 dark:text-gray-400">Lightning Fast Search</div>
+                        <div class="footer-link text-gray-600 dark:text-gray-400">Multi-Venue Support</div>
+                        <div class="footer-link text-gray-600 dark:text-gray-400">PDF Export</div>
+                        <div class="footer-link text-gray-600 dark:text-gray-400">WhatsApp Sharing</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-500 dark:text-gray-400">
+                <p>&copy; 2025 SRM Seat Finder. Made with ❤️ for SRM KTR students.</p>
+                <p class="text-sm mt-2">This tool is for educational purposes only. Please verify your seat assignment with official sources.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="toast hidden">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification hidden">
         <div class="toast-content">
-            <i class="toast-icon"></i>
+            <i data-lucide="check-circle" class="toast-icon"></i>
             <span class="toast-message"></span>
         </div>
     </div>
 
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-lg font-semibold">Export Options</h3>
+                <button id="closeModal" class="modal-close">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="exportOptions" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+        
+        // Reinitialize icons after dynamic content updates
+        function refreshIcons() {
+            lucide.createIcons();
+        }
+    </script>
+    
+    <!-- App JavaScript -->
     <script src="{{ versioned_url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html> 
