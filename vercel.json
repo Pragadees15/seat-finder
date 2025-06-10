@@ -1,6 +1,11 @@
 {
   "version": 2,
-  "name": "srm-exam-seat-finder",
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
   "routes": [
     {
       "src": "/static/(.*)",
@@ -23,12 +28,5 @@
     "FLASK_DEBUG": "0",
     "SERVERLESS": "1",
     "PYTHONPATH": "./"
-  },
-  "functions": {
-    "app.py": {
-      "runtime": "python3.9",
-      "memory": 1024,
-      "maxDuration": 30
-    }
   }
 } 
