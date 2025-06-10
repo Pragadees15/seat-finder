@@ -1,19 +1,6 @@
 {
   "version": 2,
   "name": "srm-exam-seat-finder",
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "25mb"
-      }
-    },
-    {
-      "src": "static/**",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
     {
       "src": "/static/(.*)",
@@ -39,6 +26,7 @@
   },
   "functions": {
     "app.py": {
+      "runtime": "python3.9",
       "memory": 1024,
       "maxDuration": 30
     }
