@@ -1,0 +1,73 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with subtle gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8f8f8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Main Logo Area -->
+  <g transform="translate(600, 200)">
+    <!-- Logo Background Circle -->
+    <circle cx="0" cy="0" r="100" fill="#000000" stroke="#333333" stroke-width="4"/>
+    
+    <!-- Graduation Cap Icon (Main Logo) -->
+    <g transform="translate(0, -10)">
+      <!-- Cap Base -->
+      <rect x="-40" y="-15" width="80" height="8" rx="4" fill="#ffffff"/>
+      <!-- Cap Top -->
+      <rect x="-50" y="-25" width="100" height="4" rx="2" fill="#ffffff"/>
+      <!-- Tassel -->
+      <circle cx="35" cy="-21" r="3" fill="#ffffff"/>
+      <rect x="35" y="-18" width="2" height="20" fill="#ffffff"/>
+      <rect x="33" y="2" width="6" height="3" rx="1" fill="#ffffff"/>
+    </g>
+    
+    <!-- Search Icon Integration -->
+    <g transform="translate(0, 25)">
+      <circle cx="0" cy="0" r="15" fill="none" stroke="#ffffff" stroke-width="3"/>
+      <line x1="10.6" y1="10.6" x2="20" y2="20" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </g>
+  
+  <!-- App Name -->
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#000000" text-anchor="middle">SRM Seat Finder</text>
+  
+  <!-- Tagline -->
+  <text x="600" y="390" font-family="Arial, sans-serif" font-size="24" fill="#666666" text-anchor="middle">Lightning-Fast Exam Seat Discovery</text>
+  
+  <!-- Key Features Row -->
+  <g transform="translate(300, 450)">
+    <!-- Feature 1 -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="180" height="80" rx="12" fill="#f0f0f0" stroke="#e0e0e0"/>
+      <text x="90" y="30" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#000000" text-anchor="middle">10K+</text>
+      <text x="90" y="50" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">Students Helped</text>
+    </g>
+    
+    <!-- Feature 2 -->
+    <g transform="translate(200, 0)">
+      <rect x="0" y="0" width="180" height="80" rx="12" fill="#f0f0f0" stroke="#e0e0e0"/>
+      <text x="90" y="30" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#000000" text-anchor="middle">&lt; 15s</text>
+      <text x="90" y="50" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">Search Time</text>
+    </g>
+    
+    <!-- Feature 3 -->
+    <g transform="translate(400, 0)">
+      <rect x="0" y="0" width="180" height="80" rx="12" fill="#f0f0f0" stroke="#e0e0e0"/>
+      <text x="90" y="30" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#000000" text-anchor="middle">5 Campuses</text>
+      <text x="90" y="50" font-family="Arial, sans-serif" font-size="12" fill="#666666" text-anchor="middle">Full Coverage</text>
+    </g>
+  </g>
+  
+  <!-- URL -->
+  <text x="600" y="580" font-family="Arial, sans-serif" font-size="18" fill="#666666" text-anchor="middle">exam-seat-finder.vercel.app</text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="150" cy="150" r="20" fill="#f0f0f0" opacity="0.5"/>
+  <circle cx="1050" cy="180" r="30" fill="#f0f0f0" opacity="0.4"/>
+  <circle cx="200" cy="500" r="25" fill="#f0f0f0" opacity="0.3"/>
+  <circle cx="1000" cy="480" r="35" fill="#f0f0f0" opacity="0.4"/>
+</svg> 

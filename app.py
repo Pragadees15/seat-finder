@@ -118,7 +118,8 @@ if not app.debug:
 
 # Cache busting for static files
 # Generate a unique version when the server starts
-CACHE_BUST_VERSION = str(int(datetime.now().timestamp()))
+# Use a shorter version for serverless environments
+CACHE_BUST_VERSION = str(int(datetime.now().timestamp()))[-6:]
 
 @app.context_processor
 def inject_cache_bust():
@@ -355,8 +356,25 @@ def index():
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     """Serve static files (fallback for Vercel)"""
-    from flask import send_from_directory
-    return send_from_directory('static', filename)
+    from flask import send_from_directory, Response
+    
+    try:
+        response = send_from_directory('static', filename)
+        
+        # Set proper MIME types for CSS and JS files
+        if filename.endswith('.css'):
+            response.headers['Content-Type'] = 'text/css; charset=utf-8'
+        elif filename.endswith('.js'):
+            response.headers['Content-Type'] = 'application/javascript; charset=utf-8'
+        elif filename.endswith('.svg'):
+            response.headers['Content-Type'] = 'image/svg+xml; charset=utf-8'
+        
+        # Add cache headers
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        return response
+    except Exception as e:
+        app.logger.error(f"Error serving static file {filename}: {e}")
+        return Response("File not found", status=404)
 
 @app.route('/robots.txt')
 def robots_txt():
