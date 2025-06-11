@@ -155,23 +155,7 @@ class ExamExportUtils:
             story.append(Paragraph("SRM INSTITUTE OF SCIENCE AND TECHNOLOGY", header_style))
             story.append(Paragraph("EXAMINATION SEAT ALLOCATION", title_style))
             
-            # Academic Year Badge
-            academic_year = Paragraph(
-                "ACADEMIC YEAR 2024-2025",
-                ParagraphStyle(
-                    'AcademicYear',
-                    parent=styles['Normal'],
-                    fontSize=12,
-                    alignment=TA_CENTER,
-                    textColor=self.pdf_colors['navy'],
-                    fontName='Helvetica-Bold',
-                    backColor=self.pdf_colors['gold'],
-                    borderPadding=8,
-                    spaceAfter=30
-                )
-            )
-            story.append(academic_year)
-            story.append(Spacer(1, 20))
+            # Removed Academic Year Badge
             
             # Student Information Section
             story.append(Paragraph("📋 STUDENT INFORMATION", section_style))
@@ -406,8 +390,7 @@ class ExamExportUtils:
             
             student_data = [
                 ['Registration Number:', first_exam['registration_number']],
-                ['Department:', first_exam['department']],
-                ['Academic Year:', '2024-2025']
+                ['Department:', first_exam['department']]
             ]
             
             student_table = Table(student_data, colWidths=[120, 200])
@@ -484,7 +467,6 @@ class ExamExportUtils:
             summary_data = [
                 [f"📊 Total Examinations: {len(exam_list)}"],
                 [f"⏱️ Duration: 3 hours each"],
-                [f"📅 Academic Year: 2024-2025"],
                 [f"📄 Generated: {datetime.now().strftime('%d %B %Y at %H:%M')}"]
             ]
             
@@ -572,8 +554,7 @@ class ExamExportUtils:
             
             student_data = [
                 ['Registration Number:', first_exam['registration_number']],
-                ['Department:', first_exam['department']],
-                ['Academic Year:', '2024-2025']
+                ['Department:', first_exam['department']]
             ]
             
             student_table = Table(student_data, colWidths=[120, 200])
@@ -656,7 +637,6 @@ class ExamExportUtils:
             summary_data = [
                 [f"📊 Total Examinations: {len(exam_list)}"],
                 [f"⏱️ Duration: 3 hours each"],
-                [f"📅 Academic Year: 2024-2025"],
                 [f"📄 Generated: {datetime.now().strftime('%d %B %Y at %H:%M')}"]
             ]
             
